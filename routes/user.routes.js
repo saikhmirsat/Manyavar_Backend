@@ -14,6 +14,16 @@ userRoute.get("/", async (req, res) => {
     }
 })
 
+userRoute.get("/:_id", async (req, res) => {
+    try {
+        const user = await userModel.find({ _id: req.params })
+        res.send(user)
+    } catch (err) {
+        res.send('Can not found')
+        console.log(err)
+    }
+})
+
 userRoute.post("/register", async (req, res) => {
     const { email, firstname, lastname, password, roll, registerdate, avatar, gender, mobile } = req.body
 
