@@ -13,7 +13,12 @@ const productSchema = mongoose.Schema({
     features: Array,
     description: String,
     address: String,
-    email: String
+    email: String,
+    img1: String,
+    img2: String,
+    img3: String,
+    img4: String,
+    img5: String
 }, {
     versionKey: false
 })
