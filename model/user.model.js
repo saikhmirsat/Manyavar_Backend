@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema({
     firstname: String,
     lastname: String,
     password: String,
-    avatar: String
+    avatar: String,
+    mobile: String
 }, {
     versionKey: false
 })
