@@ -5,6 +5,26 @@ const bcrypt = require('bcrypt');
 
 const userRoute = express.Router()
 
+userRoute.get("/user", async (req, res) => {
+    try {
+        let userList = await userModel.find({ role: 'user' })
+        res.send(userList)
+    } catch (err) {
+        console.log(err)
+        res.send({ "msg": 'error', sucess: false })
+    }
+})
+
+userRoute.get("/admin", async (req, res) => {
+    try {
+        let adminList = await userModel.find({ role: 'admin' })
+        res.send(adminList)
+    } catch (err) {
+        console.log(err)
+        res.send({ "msg": 'error', sucess: false })
+    }
+})
+
 userRoute.get("/", async (req, res) => {
     try {
         let usersdata = await userModel.find()
@@ -25,7 +45,7 @@ userRoute.get("/:_id", async (req, res) => {
 })
 
 userRoute.post("/register", async (req, res) => {
-    const { email, firstname, lastname, password, roll, registerdate, avatar, gender, mobile } = req.body
+    const { email, firstname, lastname, password, role, registerdate, avatar, gender, mobile } = req.body
 
     try {
         const user = await userModel.find({ email })
@@ -37,7 +57,7 @@ userRoute.post("/register", async (req, res) => {
                 if (err) {
                     res.send("Something went wrong")
                 } else {
-                    const user = new userModel({ roll, registerdate, avatar, gender, email, mobile, firstname, lastname, password: hash })
+                    const user = new userModel({ role, registerdate, avatar, gender, email, mobile, firstname, lastname, password: hash })
                     await user.save()
                     res.send({ "msg": "new user has been register", "sucess": true })
                 }
