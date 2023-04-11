@@ -5,6 +5,7 @@ const { userRoute } = require('./routes/user.routes')
 const { productRoute } = require('./routes/products.routes')
 const { authenticate } = require('./middleware/authenticate.middleware')
 const { cartRoute } = require('./routes/cart.routes')
+const { wishlistRoute } = require('./routes/wishlist.routes')
 require('dotenv').config()
 
 const app = express()
@@ -19,6 +20,7 @@ app.use("/users", userRoute)
 app.use("/products", productRoute)
 app.use(authenticate)
 app.use('/cart', cartRoute)
+app.use('/wishlists', wishlistRoute)
 
 app.listen(process.env.port, async () => {
     try {
