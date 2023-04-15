@@ -5,11 +5,61 @@ const { productModel } = require('../model/product.model')
 const productRoute = express.Router()
 
 productRoute.get("/", async (req, res) => {
+    const { q, limit, skip, sort, order, category, gender, color, size, occasion, collections } = req.query
+
+    const query = { description: { $regex: q, $options: "i" } }
+
+    let filter = {}
+
+    if (gender) {
+        filter.gender = gender
+    }
+    if (category) {
+        filter.category = category
+    }
+    if (size) {
+        filter.size = size
+    }
+    if (color) {
+        filter.color = color
+    }
+    if (occasion) {
+        filter.occasion = occasion
+    }
+    if (collections) {
+        filter.collections = collections
+    }
+
+
+    let y = {}
+    if (sort == 'price') {
+        y = { price: order }
+    } else if (sort == 'name') {
+        y = { name: order }
+    }
+
+
+    let actualFilter = {}
+    for (let key in filter) {
+        if (filter[key] !== '') {
+            actualFilter[key] = filter[key]
+        }
+    }
+
+    if (actualFilter.size) {
+        actualFilter.size = { $in: [size] }
+    }
+
+    if (q) {
+        actualFilter = query
+    }
+
     try {
-        const Products = await productModel.find()
-        res.send(Products)
+        let data = await productModel.find(actualFilter).sort(y).limit(limit).skip(skip)
+        res.send(data)
+
     } catch (err) {
-        res.send({ "msg": "Can not found", "sucess": false })
+        res.send("Can't find product")
         console.log(err)
     }
 })
