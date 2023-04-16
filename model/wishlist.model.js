@@ -4,7 +4,8 @@ const wishlistSchema = mongoose.Schema({
     name: String,
     img: String,
     price: Number,
-    user: String
+    user: String,
+    color: String
 }, {
     versionKey: false
 
