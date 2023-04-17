@@ -40,8 +40,8 @@ wishlistRoute.post('/movetocart/:_id', async (req, res) => {
     try {
         const { _id } = req.params
         const { size, quentity } = req.body
-        const { name, img, price, user } = await wishlistModel.findOne({ _id })
-        let obj = { name, img, price, size, quentity, user }
+        const { name, img, price, user, color } = await wishlistModel.findOne({ _id })
+        let obj = { name, img, price, size, quentity, user, color }
 
         let newcart = await cartModel(obj)
         await newcart.save()
